@@ -29,8 +29,16 @@ int main() {
     using namespace Cxx;
     int integer = std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
 	
+// or
 	
-//  LIFT(read_file) << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
-//  read_file() << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
+//  LIFT(read_file) << [](auto .. .
+
+// or
+
+//  read_file() << [](auto .. .
 }
 ```
+
+THE FIRST EXPRESSION `std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; }` INVOKES THE LAMBDA [](auto str) {...} with std::string{"123"} , since the right shift operator points to std::string{"123"} , std::string{"123"} is used for the next production
+
+std::string{"123"} >> LIFT(to_int) invokes the free function to_int with std::string{"123"} and returns std::stoi("123") , 123 is used by LIFT(c_out), 123 is printed in console
