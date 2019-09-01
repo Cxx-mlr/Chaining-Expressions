@@ -11,24 +11,16 @@ CXX_BEGIN
 // To Simplify
 #define NoexceptInvoke noexcept(std::is_nothrow_invocable_v <Function, Argument>)
 
-/*
- * the basic idea of this snippet as explained in this post https://www.bfilipek.com/2018/06/optional-examples-wall.html#monadic-extensions ,
- * is to be able to chain operations together by clever overloading of Bitwise operators left and right shift
- * even if the return type of the expression to be evaluated is void ,
- * the 'precedence' of the overloaded operators is the argument returned for the next production
- */
 
 #define LIFT(Function)\
 [](auto&&... args) noexcept(noexcept(  Function(std::forward <decltype(args)>(args)...)  )) -> decltype(Function(std::forward <decltype(args)>(args)...))\
 { return Function(std::forward <decltype(args)>(args)...); }
 
+// about LIFT https://blog.tartanllama.xyz/passing-overload-sets/
 
 #define OPT(Function, op)\
 [](auto&&... args) -> decltype(  ((Function op std::forward <decltype(args)>(args)), ...)  )\
 { return ((Function op std::forward <decltype(args)>(args)), ...); }
-
-
- // about LIFT https://blog.tartanllama.xyz/passing-overload-sets/
 
  // Accepts(Function >> Argument) returns Argument since right shift points to 'Argument'
 	template <class Function, class Argument, std::enable_if_t <std::is_invocable_v <Function, Argument>, int> = 0>
