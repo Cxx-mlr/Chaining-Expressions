@@ -30,9 +30,9 @@ int main() {
     int integer = std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
 	
        // or
-       //         LIFT(read_file) << [](auto .. .
+       //         LIFT(read_file)    << [](auto .. .
        // or
-       //         read_file() << [](auto .. .
+       //         read_file()        << [](auto .. .
 }
 ```
 
