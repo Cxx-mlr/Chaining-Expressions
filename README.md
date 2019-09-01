@@ -13,24 +13,24 @@ the 'precedence' of the overloaded operators is the argument returned for the ne
 #include "ExprChain.hpp"
 
 std::string read_file(const char* const path = "text.txt") {
-	std::ifstream read(path);
+    std::ifstream read(path);
 
-	return std::string{ std::istreambuf_iterator <char>{read}, {} };
+    return std::string{ std::istreambuf_iterator <char>{read}, {} };
 }
 
 template <class type>
 void c_out(const type & arg) { std::cout << arg; }
 
 int to_int(const std::string &value) {
-	return std::stoi(value) * 2;
+    return std::stoi(value) * 2;
 }
 
 int main() {
-	using namespace Cxx;
-
-//				  LIFT(read_file)
-//				  read_file("text.txt")
-
-	int integer = std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
+    using namespace Cxx;
+    int integer = std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
+	
+	
+//  LIFT(read_file) << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
+//  read_file() << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
 }
 ```
