@@ -1,7 +1,7 @@
 #ifndef ExprChain_hpp
 #define ExprChain_hpp
 
-#define CXX_BEGIN namespace cx {
+#define CXX_BEGIN namespace Cxx {
 #define CXX_END }
 
 CXX_BEGIN
