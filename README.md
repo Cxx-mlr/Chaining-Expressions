@@ -36,7 +36,7 @@ int main() {
 }
 ```
 
-THE FIRST EXPRESSION `std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; }` INVOKES THE LAMBDA `[](auto str) {...}` With `std::string{"123"}` , AND RETURNS `std::string` TO BE USED FOR THE NEXT PRODUCTION SINCE LEFT SHIFT OPERATOR POINTS TO `std::string{"123"}`
+FIRST EXPRESSION `std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; }` INVOKES THE LAMBDA `[](auto str) {...}` With `std::string{"123"}` , AND RETURNS `std::string{"123"}` TO BE USED FOR THE NEXT PRODUCTION SINCE LEFT SHIFT OPERATOR POINTS TO `std::string{"123"}`
 
 `std::string{"123"} >> LIFT(to_int)` CALLS `to_int` WITH `std::string{"123"}` AND RETURNS `std::stoi("123")` SINCE RIGHT SHIFT POINTS TO `to_int` and the result type of this expression isn't void
 
