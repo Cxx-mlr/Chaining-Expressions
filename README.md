@@ -29,16 +29,15 @@ int main() {
     using namespace Cxx;
     int integer = std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; } >> LIFT(to_int) << LIFT(c_out);
 	
-// or
-	
-//  LIFT(read_file) << [](auto .. .
-
-// or
-
-//  read_file() << [](auto .. .
+       // or
+       //         LIFT(read_file) << [](auto .. .
+       // or
+       //         read_file() << [](auto .. .
 }
 ```
 
-THE FIRST EXPRESSION `std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; }` INVOKES THE LAMBDA [](auto str) {...} with std::string{"123"} , since the right shift operator points to std::string{"123"} , std::string{"123"} is used for the next production
+THE FIRST EXPRESSION `std::string{"123"} << [](auto str) { std::cout << "converting: " << str << " to int ... "; }` INVOKES THE LAMBDA [](auto str) {...} With std::string{"123"} , AND RETURNS std::string TO BE USED FOR THE NEXT PRODUCTION SINCE LEFT SHIFT OPERATOR POINTS TO std::string{"123"}
 
-std::string{"123"} >> LIFT(to_int) invokes the free function to_int with std::string{"123"} and returns std::stoi("123") , 123 is used by LIFT(c_out), 123 is printed in console
+std::string{"123"} >> LIFT(to_int) CALLS to_int WITH std::string{"123"} AND RETURNS std::stoi("123") SINCE RIGHT SHIFT POINTS TO to_int and the result type of this expression isn't void
+
+123 << LIFT(c_out); CALLS LIFT(c_out) AND RETURNS 123 , integer IS 123
