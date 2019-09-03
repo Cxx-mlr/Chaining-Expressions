@@ -20,91 +20,90 @@
 EXPRCHAIN_BEGIN
 ///////////////////////////////////////////////
 
-
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument> && std::is_same_v <void, std::invoke_result_t <Function, Argument>>, int > = 0>
-auto operator>> (Function && function, Argument && argument) {
-	function(argument);
+decltype(auto) operator>> (Function && function, Argument && argument) noexcept(std::is_nothrow_invocable_v <Function, Argument>) {
+	std::forward <Function>(function)(argument);
 
-	return argument;
+	return std::forward <Argument>(argument);
 }
 
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
-auto operator>> (Argument && argument, Function && function) {
+decltype(auto) operator>> (Argument && argument, Function && function) noexcept(std::is_nothrow_invocable_v <Function, Argument>) {
 	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, Argument>>) {
-		function(argument);
+		std::forward <Function>(function)(std::forward <Argument>(argument));
 
-		return function;
+		return std::forward <Function>(function);
 	}
 
 	else {
-		return function(argument);
-	}
-}
-
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>> && std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>> , int > = 0>
-auto operator>> (Function && function, Argument && argument) {
-	function(argument());
-
-	return argument;
-}
-
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
-auto operator>> (Argument && argument, Function && function) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
-		function(argument());
-
-		return function;
-	}
-
-	else {
-		return function(argument());
-	}
-}
-
-
-///////////////////////////////////////////////
-
-///////////////////////////////////////////////
-
-
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
-auto operator<< (Function && function, Argument && argument) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, Argument>>) {
-		function(argument);
-
-		return function;
-	}
-
-	else {
-		return function(argument);
-	}
-}
-
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument> && std::is_same_v <void, std::invoke_result_t <Function, Argument>>, int > = 0>
-auto operator<< (Argument && argument, Function && function) {
-	function(argument);
-
-	return argument;
-}
-
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
-auto operator<< (Function && function, Argument && argument) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
-		function(argument());
-
-		return function;
-	}
-
-	else {
-		return function(argument());
+		return std::forward <Function>(function)(std::forward <Argument>(argument));
 	}
 }
 
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>> && std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>, int > = 0>
-auto operator<< (Argument && argument, Function && function) {
-	function(argument());
+decltype(auto) operator>> (Function && function, Argument && argument) noexcept(std::is_nothrow_invocable_v <Function, std::invoke_result_t <Argument>>) {
+	std::forward <Function>(function)(std::forward <Argument>(argument)());
 
-	return argument;
+	return std::forward <Argument>(argument);
+}
+
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
+decltype(auto) operator>> (Argument && argument, Function && function) noexcept(std::is_nothrow_invocable_v <Function, std::invoke_result_t <Argument>>) {
+	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
+		std::forward <Function>(function)(std::forward <Argument>(argument)());
+
+		return std::forward <Function>(function);
+	}
+
+	else {
+		return std::forward <Function>(function)(std::forward <Argument>(argument)());
+	}
+}
+
+
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+
+
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
+decltype(auto) operator<< (Function && function, Argument && argument) noexcept(std::is_nothrow_invocable_v <Function, Argument>) {
+	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, Argument>>) {
+		std::forward <Function>(function)(std::forward <Argument>(argument));
+
+		return std::forward <Function>(function);
+	}
+
+	else {
+		return std::forward <Function>(function)(std::forward <Argument>(argument));
+	}
+}
+
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument> && std::is_same_v <void, std::invoke_result_t <Function, Argument>>, int > = 0>
+decltype(auto) operator<< (Argument && argument, Function && function) noexcept(std::is_nothrow_invocable_v <Function, Argument>) {
+	std::forward <Function>(function)(argument);
+
+	return std::forward <Argument>(argument);
+}
+
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
+decltype(auto) operator<< (Function && function, Argument && argument) noexcept(std::is_nothrow_invocable_v <Function, std::invoke_result_t <Argument>>) {
+	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
+		std::forward <Function>(function)(std::forward <Argument>(argument)());
+
+		return std::forward <Function>(function);
+	}
+
+	else {
+		return std::forward <Function>(function)(std::forward <Argument>(argument)());
+	}
+}
+
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>> && std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>, int > = 0>
+decltype(auto) operator<< (Argument && argument, Function && function) noexcept(std::is_nothrow_invocable_v <Function, std::invoke_result_t <Argument>>) {
+	std::forward <Function>(function)(std::forward <Argument>(argument)());
+
+	return std::forward <Argument>(argument);
 }
 
 
@@ -116,7 +115,17 @@ auto operator<< (Argument && argument, Function && function) {
 
 // about LIFT https://blog.tartanllama.xyz/passing-overload-sets/
 
-#define OPT(Function, Opt) [](auto&& ... args) -> decltype(((std::cout << args), ...)) { return ((Function Opt args), ...); }
+#ifdef _MSC_VER
+#define OPT(Function, Opt)\
+[](auto&& ... args) -> decltype(((Function Opt std::forward <decltype(args)>(args)), ...))\
+{ return ((Function Opt std::forward <decltype(args)>(args)), ...); }
+
+#else
+#define OPT(Function, Opt)\
+[](auto&& ... args) noexcept(noexcept( ((Function Opt std::forward <decltype(args)>(args)), ...) )) -> decltype(((Function Opt std::forward <decltype(args)>(args)), ...))\
+{ return ((Function Opt std::forward <decltype(args)>(args)), ...); }
+
+#endif
 
 EXPRCHAIN_END
 
