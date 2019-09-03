@@ -116,11 +116,13 @@ decltype(auto) operator<< (Argument && argument, Function && function) noexcept(
 // about LIFT https://blog.tartanllama.xyz/passing-overload-sets/
 
 #ifdef _MSC_VER
+
 #define OPT(Function, Opt)\
 [](auto&& ... args) -> decltype(((Function Opt std::forward <decltype(args)>(args)), ...))\
 { return ((Function Opt std::forward <decltype(args)>(args)), ...); }
 
 #else
+
 #define OPT(Function, Opt)\
 [](auto&& ... args) noexcept(noexcept( ((Function Opt std::forward <decltype(args)>(args)), ...) )) -> decltype(((Function Opt std::forward <decltype(args)>(args)), ...))\
 { return ((Function Opt std::forward <decltype(args)>(args)), ...); }
