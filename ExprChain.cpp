@@ -1,5 +1,3 @@
-#ifndef ExprChain_hpp
-#define ExprChain_hpp
 
 /*
  * the basic idea of this snippet as explained in this post https://www.bfilipek.com/2018/06/optional-examples-wall.html#monadic-extensions ,
@@ -7,6 +5,9 @@
  * even if the return type of the expression to be evaluated is void ,
  * the 'precedence' of the overloaded operators is the argument returned for the next production
  */
+
+#ifndef ExprChain_hpp
+#define ExprChain_hpp
 
 
 #include <type_traits>
