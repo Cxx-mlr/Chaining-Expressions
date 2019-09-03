@@ -27,3 +27,7 @@ int main() {
 ```
 Output: 246
 ```
+
+# How does It Works?
+
+---
