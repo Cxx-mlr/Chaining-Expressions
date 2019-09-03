@@ -6,9 +6,9 @@
  * the 'precedence' of the overloaded operators is the argument returned for the next production
  */
 
+
 #ifndef ExprChain_hpp
 #define ExprChain_hpp
-
 
 #include <type_traits>
 #include <utility>
@@ -21,17 +21,11 @@ EXPRCHAIN_BEGIN
 ///////////////////////////////////////////////
 
 
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument> && std::is_same_v <void, std::invoke_result_t <Function, Argument>>, int > = 0>
 auto operator>> (Function && function, Argument && argument) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, Argument>>) {
-		function(argument);
+	function(argument);
 
-		return argument;
-	}
-
-	else {
-		return function(argument) >> argument;
-	}
+	return argument;
 }
 
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
@@ -47,17 +41,11 @@ auto operator>> (Argument && argument, Function && function) {
 	}
 }
 
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>> && std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>> , int > = 0>
 auto operator>> (Function && function, Argument && argument) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
-		function(argument());
+	function(argument());
 
-		return argument;
-	}
-
-	else {
-		return function(argument()) >> argument;
-	}
+	return argument;
 }
 
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
@@ -92,17 +80,11 @@ auto operator<< (Function && function, Argument && argument) {
 	}
 }
 
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument>, int > = 0>
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, Argument> && std::is_same_v <void, std::invoke_result_t <Function, Argument>>, int > = 0>
 auto operator<< (Argument && argument, Function && function) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, Argument>>) {
-		function(argument);
+	function(argument);
 
-		return argument;
-	}
-
-	else {
-		return argument << function(argument);
-	}
+	return argument;
 }
 
 template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
@@ -118,17 +100,11 @@ auto operator<< (Function && function, Argument && argument) {
 	}
 }
 
-template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>>, int > = 0>
+template <class Function, class Argument, std::enable_if_t < std::is_invocable_v <Function, std::invoke_result_t <Argument>> && std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>, int > = 0>
 auto operator<< (Argument && argument, Function && function) {
-	if constexpr (std::is_same_v <void, std::invoke_result_t <Function, std::invoke_result_t <Argument>>>) {
-		function(argument());
+	function(argument());
 
-		return argument;
-	}
-
-	else {
-		return argument << function(argument());
-	}
+	return argument;
 }
 
 
