@@ -10,10 +10,10 @@ Chaining Expressions is a set of (user-defined) operators << >> wich allows you 
 
 #include "ExprChain.hpp"
 
-std::string get_str();          // returns "123"
-int to_int(std::string value);  // string to int conversion
-int transform(int value);       // multiply by two
-void c_out(int result);         // ouput
+std::string get_str()         { return "123";            }
+int to_int(std::string value) { return std::stoi(value); }
+int transform(int value)      { return value * 2;        }
+void c_out(int result)        { std::cout << result;     }
 
 int main() {
     using namespace ExprChain;
